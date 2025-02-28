@@ -56,9 +56,9 @@ class _HomePageState extends State<HomePage> {
               20.kheightBox,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(13),
+                  borderRadius: BorderRadius.circular(12),
                   gradient: LinearGradient(
                     colors: [Color(0xFF74FBDE), Color(0xFF3C41BF)],
                   ),
@@ -139,7 +139,6 @@ class _HomePageState extends State<HomePage> {
                   ).paddingOnly(bottom: 10),
                 ],
               ),
-
               ListTile(
                 title: '제일 핫한 리뷰를 만나보세요'.notoSansKr400(12),
                 subtitle: '리뷰️  랭킹⭐ top 3'.notoSansKr500(
@@ -149,9 +148,10 @@ class _HomePageState extends State<HomePage> {
                 trailing: Icon(Icons.arrow_forward_ios, color: Colors.black),
               ),
               ...List.generate(ImageConstant.topProducts.length, (index) {
-                return Container(
+                return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Row(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -194,8 +194,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                             ...List.generate(
                               ImageConstant
-                                  .topProducts[index]['subtitle']
-                                  .length,
+                                  .topProducts[index]['subtitle'].length,
                               (ind) =>
                                   '•\t${ImageConstant.topProducts[index]['subtitle'][ind]}'
                                       .notoSansKr400(
@@ -205,6 +204,7 @@ class _HomePageState extends State<HomePage> {
                                       )
                                       .paddingOnly(left: 6),
                             ),
+                            6.kheightBox,
                             Row(
                               children: [
                                 Icon(
@@ -219,11 +219,12 @@ class _HomePageState extends State<HomePage> {
                                 2.kwidthtBox,
                                 '(${ImageConstant.topProducts[index]['totRatings']})'
                                     .notoSansKr700(
-                                      10,
-                                      color: AppColors.borderColor,
-                                    ),
+                                  10,
+                                  color: AppColors.borderColor,
+                                ),
                               ],
                             ),
+                            6.kheightBox,
                             Row(
                               children: List.generate(
                                 ImageConstant.topProducts[index]['tag'].length,
@@ -238,8 +239,8 @@ class _HomePageState extends State<HomePage> {
                                       vertical: 5,
                                     ),
                                     margin: EdgeInsets.only(right: 4),
-                                    child: ImageConstant
-                                        .topProducts[index]['tag'][ind]
+                                    child: ImageConstant.topProducts[index]
+                                            ['tag'][ind]
                                         .toString()
                                         .notoSansKr400(11),
                                   );
@@ -274,26 +275,21 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             GestureDetector(
-                              onTap:
-                                  () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) => ProfileDetail(
-                                            name: 'Name ${index + 1}',
-                                            image:
-                                                ImageConstant.catImages[index],
-                                          ),
-                                    ),
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileDetail(
+                                    name: 'Name ${index + 1}',
+                                    image: ImageConstant.catImages[index],
                                   ),
+                                ),
+                              ),
                               child: CircleAvatar(
                                 radius: 35,
-                                backgroundColor:
-                                    index == 0
-                                        ? AppColors.yellow
-                                        : Colors.transparent,
+                                backgroundColor: index == 0
+                                    ? AppColors.yellow
+                                    : Colors.transparent,
                                 child: CircleAvatar(
                                   radius: 31,
-
                                   backgroundImage: AssetImage(
                                     ImageConstant.catImages[index],
                                   ),
