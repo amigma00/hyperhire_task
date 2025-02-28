@@ -23,3 +23,5 @@ A Flutter project built with modern UI components and state management using `fl
 1. Clone this repository:
    ```sh
    git clone https://github.com/amigma00/hyperhire_task.git
+
+Moreover we can use many more practices depending upon the project requirements, like dependency injections `get_it`, `MediaQuery` or `flutter_screenutil` for resposiveness. I haven't found any need of state managemnt in the task except animating the dots for caraousal for which I have used simple `setState` method. For advanced routing `go_router` is a good solution. Live Production projects which have considerable user base can be developed with `Clean Architecture` as it can be more testable and scalable. I Would recommend my other task in which I have used some some good packages and practices. [`Link to the repo`](https://github.com/amigma00/realtime_innovations_task.git)
