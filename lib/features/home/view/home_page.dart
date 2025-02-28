@@ -18,11 +18,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int carousalIndex = 0;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,112 +28,14 @@ class _HomePageState extends State<HomePage> {
         bottom: false,
         child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            shadowColor: Colors.black,
-            leadingWidth: 100,
-            elevation: 1,
-            surfaceTintColor: Colors.transparent,
-            leading: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'LOGO',
-                style: GoogleFonts.notoSansKr(
-                  fontSize: 24,
-                  color: AppColors.appBarColor,
-                ),
-              ),
-            ),
-          ),
+          appBar: appBar(),
           body: ListView(
             // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
               20.kheightBox,
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF74FBDE), Color(0xFF3C41BF)],
-                  ),
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: '검색어를 입력하세요',
-                    hintStyle: GoogleFonts.notoSansKr(
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.hintText,
-                    ),
-                    suffixIconConstraints: BoxConstraints(
-                      maxHeight: 24,
-                      maxWidth: 44,
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: SvgPicture.asset(
-                        'assets/svg/search_icon.svg',
-                        height: 24,
-                        width: 24,
-                      ),
-                    ),
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 0,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 0,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
+              searchBar(),
               30.kheightBox,
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          carousalIndex = index;
-                        });
-                      },
-                      autoPlay: true,
-                      viewportFraction: 1,
-                      enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-                    ),
-                    items: List.generate(ImageConstant.carousalImages.length, (
-                      index,
-                    ) {
-                      return Image.asset(
-                        ImageConstant.carousalImages[index],
-                        fit: BoxFit.cover,
-                        width: 1000,
-                      );
-                    }),
-                  ),
-                  AnimatedSmoothIndicator(
-                    effect: ExpandingDotsEffect(
-                      dotHeight: 4,
-                      dotWidth: 4,
-                      activeDotColor: Colors.white,
-                      dotColor: Colors.white.withValues(alpha: .5),
-                    ),
-                    activeIndex: carousalIndex,
-                    count: ImageConstant.carousalImages.length,
-                  ).paddingOnly(bottom: 10),
-                ],
-              ),
+              imageCarousal(),
               ListTile(
                 title: '제일 핫한 리뷰를 만나보세요'.notoSansKr400(12),
                 subtitle: '리뷰️  랭킹⭐ top 3'.notoSansKr500(
@@ -194,7 +91,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                             ...List.generate(
                               ImageConstant
-                                  .topProducts[index]['subtitle'].length,
+                                  .topProducts[index]['subtitle']
+                                  .length,
                               (ind) =>
                                   '•\t${ImageConstant.topProducts[index]['subtitle'][ind]}'
                                       .notoSansKr400(
@@ -219,9 +117,9 @@ class _HomePageState extends State<HomePage> {
                                 2.kwidthtBox,
                                 '(${ImageConstant.topProducts[index]['totRatings']})'
                                     .notoSansKr700(
-                                  10,
-                                  color: AppColors.borderColor,
-                                ),
+                                      10,
+                                      color: AppColors.borderColor,
+                                    ),
                               ],
                             ),
                             6.kheightBox,
@@ -239,8 +137,8 @@ class _HomePageState extends State<HomePage> {
                                       vertical: 5,
                                     ),
                                     margin: EdgeInsets.only(right: 4),
-                                    child: ImageConstant.topProducts[index]
-                                            ['tag'][ind]
+                                    child: ImageConstant
+                                        .topProducts[index]['tag'][ind]
                                         .toString()
                                         .notoSansKr400(11),
                                   );
@@ -264,61 +162,7 @@ class _HomePageState extends State<HomePage> {
                   .notoSansKr500(18)
                   .paddingSymmetric(horizontal: 16),
               18.kheightBox,
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    ImageConstant.catImages.length,
-                    (index) => Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileDetail(
-                                    name: 'Name ${index + 1}',
-                                    image: ImageConstant.catImages[index],
-                                  ),
-                                ),
-                              ),
-                              child: CircleAvatar(
-                                radius: 35,
-                                backgroundColor: index == 0
-                                    ? AppColors.yellow
-                                    : Colors.transparent,
-                                child: CircleAvatar(
-                                  radius: 31,
-                                  backgroundImage: AssetImage(
-                                    ImageConstant.catImages[index],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            6.kheightBox,
-                            'Name ${index + 1}'.notoSansKr400(14),
-                          ],
-                        ),
-                        if (index == 0)
-                          Positioned(
-                            left: 5,
-                            top: -12,
-                            child: SvgPicture.asset(
-                              'assets/svg/fvrt.svg',
-                              height: 13,
-                              width: 16,
-                            ),
-                          ),
-                      ],
-                    ).paddingOnly(
-                      left: index == 0 ? 16 : 0,
-                      right: 15,
-                      top: 20,
-                    ),
-                  ),
-                ),
-              ),
+              profiles(context),
               28.kheightBox,
               Container(
                 color: AppColors.bgColor,
@@ -433,5 +277,177 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.black,
+          leadingWidth: 130,
+          elevation: 1,
+          surfaceTintColor: Colors.transparent,
+          leading: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'LOGO',
+              style: GoogleFonts.notoSansKr(
+                fontSize: 24,
+                color: AppColors.appBarColor,
+              ),
+            ),
+          ),
+        );
+  }
+
+  SingleChildScrollView profiles(BuildContext context) {
+    return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  ImageConstant.catImages.length,
+                  (index) => Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap:
+                                () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => ProfileDetail(
+                                          name: 'Name ${index + 1}',
+                                          image:
+                                              ImageConstant.catImages[index],
+                                        ),
+                                  ),
+                                ),
+                            child: CircleAvatar(
+                              radius: 35,
+                              backgroundColor:
+                                  index == 0
+                                      ? AppColors.yellow
+                                      : Colors.transparent,
+                              child: CircleAvatar(
+                                radius: 31,
+                                backgroundImage: AssetImage(
+                                  ImageConstant.catImages[index],
+                                ),
+                              ),
+                            ),
+                          ),
+                          6.kheightBox,
+                          'Name ${index + 1}'.notoSansKr400(14),
+                        ],
+                      ),
+                      if (index == 0)
+                        Positioned(
+                          left: 5,
+                          top: -12,
+                          child: SvgPicture.asset(
+                            'assets/svg/fvrt.svg',
+                            height: 13,
+                            width: 16,
+                          ),
+                        ),
+                    ],
+                  ).paddingOnly(
+                    left: index == 0 ? 16 : 0,
+                    right: 15,
+                    top: 20,
+                  ),
+                ),
+              ),
+            );
+  }
+
+  Stack imageCarousal() {
+    return Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        carousalIndex = index;
+                      });
+                    },
+                    autoPlay: true,
+                    viewportFraction: 1,
+                    enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                  ),
+                  items: List.generate(ImageConstant.carousalImages.length, (
+                    index,
+                  ) {
+                    return Image.asset(
+                      ImageConstant.carousalImages[index],
+                      fit: BoxFit.cover,
+                      width: 1000,
+                    );
+                  }),
+                ),
+                AnimatedSmoothIndicator(
+                  effect: ExpandingDotsEffect(
+                    dotHeight: 4,
+                    dotWidth: 4,
+                    activeDotColor: Colors.white,
+                    dotColor: Colors.white.withValues(alpha: .5),
+                  ),
+                  activeIndex: carousalIndex,
+                  count: ImageConstant.carousalImages.length,
+                ).paddingOnly(bottom: 10),
+              ],
+            );
+  }
+
+  Container searchBar() {
+    return Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  colors: [Color(0xFF74FBDE), Color(0xFF3C41BF)],
+                ),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: '검색어를 입력하세요',
+                  hintStyle: GoogleFonts.notoSansKr(
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.hintText,
+                  ),
+                  suffixIconConstraints: BoxConstraints(
+                    maxHeight: 24,
+                    maxWidth: 44,
+                  ),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SvgPicture.asset(
+                      'assets/svg/search_icon.svg',
+                      height: 24,
+                      width: 24,
+                    ),
+                  ),
+                  isDense: true,
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 0,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 0,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            );
   }
 }

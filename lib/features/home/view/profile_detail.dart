@@ -21,82 +21,12 @@ class _ProfileDetailState extends State<ProfileDetail> {
         top: false,
         child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            shadowColor: Colors.black,
-
-            elevation: 1,
-
-            automaticallyImplyLeading: true,
-            title: Column(
-              children: [
-                '랭킹 1위'.notoSansKr400(10),
-                '베스트 리뷰어'.notoSansKr500(16),
-              ],
-            ),
-          ),
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Divider().paddingSymmetric(horizontal: 16),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                minTileHeight: 0,
-                minVerticalPadding: 0,
-                leading: SvgPicture.asset(
-                  'assets/svg/comment.svg',
-                  height: 12,
-                  width: 12,
-                ),
-                horizontalTitleGap: 0,
-                title: '댓글 달기..'.notoSansKr400(10),
-              ),
-            ],
-          ),
+          appBar: appBar(),
+          bottomNavigationBar: bottomWidget(),
           body: ListView(
             children: [
               24.kheightBox,
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    widget.image,
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              12.kheightBox,
-              widget.name.notoSansKr500(20, textAlign: TextAlign.center),
-              2.kheightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/svg/fvrt.svg',
-                    height: 13,
-                    width: 16,
-                  ),
-                  5.kwidthtBox,
-                  '골드'.notoSansKr500(14, color: AppColors.yellow),
-                ],
-              ),
-              18.kheightBox,
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.chipColor,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-
-                  child: '조립컴 업체를 운영하며 리뷰를 작성합니다.'.notoSansKr400(14),
-                ),
-              ),
+              headerProfile(),
               28.kheightBox,
               Divider(thickness: 14, height: 14, color: AppColors.bgColor),
               ListTile(
@@ -161,48 +91,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
               ),
               Divider(),
               20.kheightBox,
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppColors.borderColor),
-                    ),
-                    height: 110,
-                    width: 110,
-                    child: Image.asset(
-                      'assets/images/amd.png',
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
-                  ),
-                  // 14.kwidthtBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      'AMD 라이젠 5 5600X 버미어'.notoSansKr700(14),
-                      '정품 멀티팩'.notoSansKr500(14),
-                      Row(
-                        children: [
-                          ...List.generate(
-                            5,
-                            (index) => Icon(
-                              Icons.star_rounded,
-                              color:
-                                  index == 4
-                                      ? AppColors.borderColor
-                                      : AppColors.yellow,
-                            ),
-                          ),
-                          8.kwidthtBox,
-                          '4.07'.notoSansKr500(18),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              productDetail(),
               8.kheightBox,
               Divider().paddingSymmetric(horizontal: 16),
               14.kheightBox,
@@ -249,59 +138,189 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 ),
               ),
               18.kheightBox,
-              Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      7.kwidthtBox,
-                      SvgPicture.asset('assets/svg/bolt.svg'),
-                      10.kwidthtBox,
-                      Expanded(
-                        child:
-                            '멀티 작업도 잘 되고 꽤 괜찮습니다. 저희 회사 고객님들에게도 추천 가능한 제품인 듯 합니다.'
-                                .notoSansKr400(14),
-                      ),
-                    ],
-                  ),
-                  18.kheightBox,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      7.kwidthtBox,
-                      SvgPicture.asset(
-                        'assets/svg/bolt.svg',
-                        color: AppColors.borderColor,
-                      ),
-                      10.kwidthtBox,
-                      Expanded(
-                        child: Column(
-                          children: [
-                            '3600에서 바꾸니 체감이 살짝 되네요. 버라이어티한 느낌 까지는 아닙니다.'
-                                .notoSansKr400(14),
-                            18.kheightBox,
-                            Row(
-                              children: List.generate(
-                                3,
-                                (index) => Image.asset(
-                                  [
-                                    'assets/images/review1.png',
-                                    'assets/images/review2.png',
-                                    'assets/images/review3.png',
-                                  ][index],
-                                ).paddingOnly(right: 10),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ).paddingSymmetric(horizontal: 16),
+              reviews().paddingSymmetric(horizontal: 16),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Column reviews() {
+    return Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    7.kwidthtBox,
+                    SvgPicture.asset('assets/svg/bolt.svg'),
+                    10.kwidthtBox,
+                    Expanded(
+                      child:
+                          '멀티 작업도 잘 되고 꽤 괜찮습니다. 저희 회사 고객님들에게도 추천 가능한 제품인 듯 합니다.'
+                              .notoSansKr400(14),
+                    ),
+                  ],
+                ),
+                18.kheightBox,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    7.kwidthtBox,
+                    SvgPicture.asset(
+                      'assets/svg/bolt.svg',
+                      color: AppColors.borderColor,
+                    ),
+                    10.kwidthtBox,
+                    Expanded(
+                      child: Column(
+                        children: [
+                          '3600에서 바꾸니 체감이 살짝 되네요. 버라이어티한 느낌 까지는 아닙니다.'
+                              .notoSansKr400(14),
+                          18.kheightBox,
+                          Row(
+                            children: List.generate(
+                              3,
+                              (index) => Image.asset(
+                                [
+                                  'assets/images/review1.png',
+                                  'assets/images/review2.png',
+                                  'assets/images/review3.png',
+                                ][index],
+                              ).paddingOnly(right: 10),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+  }
+
+  Row productDetail() {
+    return Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: AppColors.borderColor),
+                  ),
+                  height: 110,
+                  width: 110,
+                  child: Image.asset(
+                    'assets/images/amd.png',
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
+                ),
+                // 14.kwidthtBox,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    'AMD 라이젠 5 5600X 버미어'.notoSansKr700(14),
+                    '정품 멀티팩'.notoSansKr500(14),
+                    Row(
+                      children: [
+                        ...List.generate(
+                          5,
+                          (index) => Icon(
+                            Icons.star_rounded,
+                            color:
+                                index == 4
+                                    ? AppColors.borderColor
+                                    : AppColors.yellow,
+                          ),
+                        ),
+                        8.kwidthtBox,
+                        '4.07'.notoSansKr500(18),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            );
+  }
+
+  Column headerProfile() {
+    return Column(
+              children: [
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      widget.image,
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                12.kheightBox,
+                widget.name.notoSansKr500(20, textAlign: TextAlign.center),
+                2.kheightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/fvrt.svg',
+                      height: 13,
+                      width: 16,
+                    ),
+                    5.kwidthtBox,
+                    '골드'.notoSansKr500(14, color: AppColors.yellow),
+                  ],
+                ),
+                18.kheightBox,
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.chipColor,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+
+                    child: '조립컴 업체를 운영하며 리뷰를 작성합니다.'.notoSansKr400(14),
+                  ),
+                ),
+              ],
+            );
+  }
+
+  Column bottomWidget() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Divider().paddingSymmetric(horizontal: 16),
+        ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          minTileHeight: 0,
+          minVerticalPadding: 0,
+          leading: SvgPicture.asset(
+            'assets/svg/comment.svg',
+            height: 12,
+            width: 12,
+          ),
+          horizontalTitleGap: 0,
+          title: '댓글 달기..'.notoSansKr400(10),
+        ),
+      ],
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      shadowColor: Colors.black,
+      elevation: 1,
+      automaticallyImplyLeading: true,
+      title: Column(
+        children: ['랭킹 1위'.notoSansKr400(10), '베스트 리뷰어'.notoSansKr500(16)],
       ),
     );
   }
